@@ -1,26 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from 'react';
 
 function App() {
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Replace this URL with your actual API endpoint
+    fetch('https://jsonplaceholder.typicode.com/posts')
+      .then((response) => response.json())
+      .then((json) => {
+        setData(json);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error);
+        setLoading(false);
+      });
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Hello World
-        </p>
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div style={{ padding: '20px' }}>
+      <h1>Posts</h1>
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        <ul>
+          {data.slice(0, 10).map((item) => (
+            <li key={item.id}>
+              <strong>{item.title}</strong>
+              <p>{item.body}</p>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }
