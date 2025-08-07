@@ -1,6 +1,6 @@
 # Stage 1: Build the React app
 # Use official Node image to build the app
-FROM node:18 AS build
+FROM node:18-alpine AS build
 
 WORKDIR /app
 COPY package*.json ./
